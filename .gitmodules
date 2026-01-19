@@ -1,0 +1,6 @@
+[submodule "external/MonoGame"]
+	path = external/MonoGame
+	url = https://github.com/MonoGame/MonoGame.git
+[submodule "external/MonoGame-Extended"]
+	path = external/MonoGame-Extended
+	url = https://github.com/MonoGame-Extended/MonoGame-Extended
