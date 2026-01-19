@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <TieredCompilation>false</TieredCompilation>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Icon.ico" />
+    <None Remove="Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icon.ico">
+      <LogicalName>Icon.ico</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Icon.bmp">
+      <LogicalName>Icon.bmp</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\external\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" />
+    <ProjectReference Include="..\external\MonoGame-Extended\source\MonoGame.Extended\MonoGame.Extended.csproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+  </PropertyGroup>
+  <Target Name="BuildContent" BeforeTargets="Build">
+    <PropertyGroup>
+      <ContentOutput>$(ProjectDir)$(OutputPath)</ContentOutput>
+      <ContentTemp>$(ProjectDir)$(IntermediateOutputPath)</ContentTemp>
+      <ContentArgs>build -p $(MonoGamePlatform) -s Assets -o $(ContentOutput) -i $(ContentTemp)</ContentArgs>
+    </PropertyGroup>
+    <MSBuild Projects="..\DemoBuilder\DemoBuilder.csproj" Targets="Build;Run"
+      Properties="RunArguments=$(ContentArgs);" />
+  </Target>
+</Project>
